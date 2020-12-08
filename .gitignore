@@ -1,0 +1,12 @@
+data/
+**/.ipynb_checkpoints
+
+# Latex generated files
+latex/*.aux
+latex/*.bbl
+latex/*.blg
+latex/*.log
+latex/*.nlo
+latex/*.out
+latex/*.toc
+
