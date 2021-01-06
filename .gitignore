@@ -1,4 +1,4 @@
-data/
+data/*
 **/.ipynb_checkpoints
 
 # Latex generated files
@@ -10,3 +10,4 @@ latex/*.nlo
 latex/*.out
 latex/*.toc
 
+__pycache__/
