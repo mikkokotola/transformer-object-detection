@@ -82,9 +82,10 @@ def getBipartiteMatching(predictedClasses, predictedBoxes, classes, boxes):
     classes = classes.detach().cpu()
     boxes = boxes.detach().cpu()
 
-    graph = torch.stack([getMatchLoss(predictedClasses, predictedBoxes, torch.repeat_interleave(classes[:, i:(i+1), :], classes.shape[1],
+    # Multiplying loss by -1 to be able to use maximum bipartite matching
+    graph = torch.stack([-getMatchLoss(predictedClasses, predictedBoxes, torch.repeat_interleave(classes[:, i:(i+1), :], classes.shape[1],
                                                                                                 dim=1), torch.repeat_interleave(boxes[:, i:(i+1), :], boxes.shape[1], dim=1)) for i in range(classes.shape[1])], dim=2)
-    matching = [sparse.csgraph.min_weight_full_bipartite_matching(
+    matching = [sparse.csgraph.maximum_bipartite_matching(
         sparse.csr_matrix(graph[i, :, :].numpy()))[1] for i in range(graph.shape[0])]
     return matching
 
