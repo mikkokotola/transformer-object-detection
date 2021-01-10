@@ -41,10 +41,10 @@ def getBoxGIoULoss(box1, box2):
     box1Area = (box1right - box1left) * (box1bottom - box1top)
     box2Area = (box2right - box2left) * (box2bottom - box2top)
 
-    intersectionLeft = torch.maximum(box1left, box2left)
-    intersectionRight = torch.minimum(box1right, box2right)
-    intersectionTop = torch.maximum(box1top, box2top)
-    intersectionBottom = torch.minimum(box1bottom, box2bottom)
+    intersectionLeft = tensorMaximum(box1left, box2left)
+    intersectionRight = tensorMinimum(box1right, box2right)
+    intersectionTop = tensorMaximum(box1top, box2top)
+    intersectionBottom = tensorMinimum(box1bottom, box2bottom)
 
     intersectionValid = torch.logical_and(
         intersectionRight > intersectionLeft, intersectionBottom > intersectionTop)
@@ -52,10 +52,10 @@ def getBoxGIoULoss(box1, box2):
         (intersectionBottom - intersectionTop)
     intersectionArea = intersectionArea * intersectionValid
 
-    smallestEnclosingLeft = torch.minimum(box1left, box2left)
-    smallestEnclosingRight = torch.maximum(box1right, box2right)
-    smallestEnclosingTop = torch.minimum(box1top, box2top)
-    smallestEnclosingBottom = torch.maximum(box1bottom, box2bottom)
+    smallestEnclosingLeft = tensorMinimum(box1left, box2left)
+    smallestEnclosingRight = tensorMaximum(box1right, box2right)
+    smallestEnclosingTop = tensorMinimum(box1top, box2top)
+    smallestEnclosingBottom = tensorMaximum(box1bottom, box2bottom)
 
     smallestEnclosingArea = (smallestEnclosingRight - smallestEnclosingLeft) * \
         (smallestEnclosingBottom - smallestEnclosingTop)
@@ -67,7 +67,6 @@ def getBoxGIoULoss(box1, box2):
     GIoU = IoU - (smallestEnclosingArea - unionArea)/smallestEnclosingArea
 
     return 1 - GIoU
-
 
 def getBoxBoundaries(box):
     boxleft = box[:, :, 0]-(box[:, :, 2]/2)
@@ -88,3 +87,11 @@ def getBipartiteMatching(predictedClasses, predictedBoxes, classes, boxes):
     matching = [sparse.csgraph.min_weight_full_bipartite_matching(
         sparse.csr_matrix(graph[i, :, :].numpy()))[1] for i in range(graph.shape[0])]
     return matching
+
+def tensorMaximum(t1, t2):
+    maxVal = (t1 >= t2)*t1 + (t2 > t1)*t2
+    return maxVal
+
+def tensorMinimum(t1, t2):
+    minVal = (t1 >= t2)*t2 + (t2 > t1)*t1
+    return minVal
