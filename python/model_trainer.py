@@ -14,4 +14,4 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 torch.cuda.empty_cache()
 model = train(model, optimizer, loss, trainDataset, valDataset, device, epochs=1, batchSize=1)
 
-torch.save(model, 'trained_DETR_testing_epochs_1.pkl')
+torch.save(model, '../models/trained_DETR_testing_epochs_1.pkl')

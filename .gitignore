@@ -1,4 +1,6 @@
 data/*
+output/*
+
 **/.ipynb_checkpoints
 
 # Latex generated files

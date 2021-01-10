@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -o train_testing.txt
+#SBATCH -o /scratch/project_2000924/detr/output/train_testing.txt
 #SBATCH --job-name=train_testing_detr
 #SBATCH --account=project_2000924
 #SBATCH --partition=gpu
