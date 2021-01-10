@@ -9,6 +9,6 @@
 #SBATCH --mem-per-cpu=2000
 #SBATCH --gres=gpu:v100:1
 
-module load pytorch/1.7
+module load pytorch/nvidia-20.08-py3
 
 srun python3 /scratch/project_2000924/detr/python/model_trainer.py
