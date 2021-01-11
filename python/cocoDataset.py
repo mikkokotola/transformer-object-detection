@@ -26,8 +26,7 @@ class CocoDataset(torch.utils.data.Dataset):
     def processImage(self, index):
         imageSeries = self.imagesTable.iloc[index]
         image = Image.open(os.path.join(
-            self.imagesPath, imageSeries["file_name"]))
-
+            self.imagesPath, imageSeries["file_name"])).convert("RGB")
         imageResized = image.resize(
             (imageSeries["scaled_width"], imageSeries["scaled_height"]), Image.LANCZOS)
 
