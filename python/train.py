@@ -16,14 +16,16 @@ def train(model, optimizer, lossFunction, trainDataset, valDataset, device, epoc
         dataset=trainDataset,
         batch_size=batchSize,
         shuffle=True,
-        collate_fn=collate
+        collate_fn=collate,
+        num_workers=10
     )
 
     valDataloader = torch.utils.data.DataLoader(
         dataset=valDataset,
         batch_size=batchSize,
         shuffle=True,
-        collate_fn=collate
+        collate_fn=collate,
+        num_workers=10
     )
 
     for epoch in range(epochs+1):
