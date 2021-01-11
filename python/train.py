@@ -17,7 +17,6 @@ def train(model, optimizer, lossFunction, trainDataset, valDataset, device, epoc
         batch_size=batchSize,
         shuffle=True,
         collate_fn=collate,
-        num_workers=10
         num_workers=4
     )
 
